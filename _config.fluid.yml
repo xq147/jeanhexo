@@ -4,12 +4,58 @@
 
 # Site
 title: Jean hexo
-subtitle: ''
-description: ''
+subtitle: '嘿~ 看到就是缘分呢'
+description: '日常记录'
 keywords:
 author: Jean
 language: zh-CN  # 指定语言，会影响主题显示的语言，按需修改
 timezone: ''
+
+# 自定义设置开始
+navbar: #导航栏
+  blog_title: 嘿~ 出门左转进错场啦 \(^o^)/~ # 博客左上角标题
+#  menu: #  博客右上角菜单项目
+#    - { key: 'home', link: '/', icon: 'iconfont icon-home-fill' }
+#    - { key: 'tag', link: '/tags/', icon: 'iconfont icon-tags-fill' }
+#    - { key: 'about', link: '/about/', icon: 'iconfont icon-user-fill', name: '联系我' }
+lazyload: #懒加载
+  enable: true
+  loading_img: /img/loading.gif
+  onlypost: false
+  offset_factor: 2
+web_analytics:  # 网页访问统计
+  enable: true # 默认为false，启用网页统计改为true即可
+  baidu:  # 百度统计的Key，参见 https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376 代码获取中 hm.js? 后边的字符串
+  google:  # Google统计的Tracking ID，参见 https://analytics.google.com/analytics/web/
+  tencent:  # 腾讯统计的H5 App id，参见 https://mta.qq.com/h5/manage/ctr_app_manage (开启高级功能才有cid)
+    sid:
+    cid:
+  woyaola:  # 51.la站点统计ID，参见 https://www.51.la/user/site/index
+  cnzz:  # 友盟/cnzz站点统计web_id，参见 https://web.umeng.com/main.php?c=site&a=show
+  leancloud:  # LeanCloud 计数统计，可用于 PV UV 展示，如果 web_analytics.enable 没有开启，PV UV 展示只会查询，不会增加
+    app_id:
+    app_key:
+    server_url:  # REST API 服务器地址，国际版不填
+
+footer: # 展示PV与UV
+  statistics:
+    enable: true
+    source: "busuanzi"  # 可选 leancloud | busuanzi  根据自己需求选择
+    pv_format: "总访问量 {} 次"  # 显示的文本，{}是数字的占位符（必须包含)，下同
+    uv_format: "总访客数 {} 人"
+
+index: #打字机
+  banner_img: https://th.wallhaven.cc/small/j3/j3ddgp.jpg
+  slogan:
+    enable: true
+    text: 保持对生活的热情以及对学习的追求
+    api:
+      enable: false
+      url: "https://v1.hitokoto.cn/"
+      method: "GET"
+      headers: {}
+      keys: ["hitokoto"]
+# 自定义设置结束
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
