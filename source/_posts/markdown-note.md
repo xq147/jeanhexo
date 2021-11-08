@@ -1,14 +1,9 @@
 ---
 title: Markdown之杂记
 date: 2021-11-06 11:57:31
-banner_img: /img/bg/avatar.jpg
-banner_img_height: 100
-banner_mask_alpha: 0
 tags: [随笔]
+excerpt: 嗯嗯~~ 这是个人Markdown学习笔记，仅仅为自己工作学习提供一个参考不做其他用处。
 ---
-
-嗯嗯~~ 这是个人Markdown学习笔记，仅仅为自己工作学习提供一个参考不做其他用处。 
-
 
 ## 2021/11/06
 
