@@ -7,6 +7,26 @@ tags: [JavaScript]
 平时在学习过程中以及工作中积累的一些知识小点，俗话说好记不如烂笔头，东放西藏也不是道理，特在此集中记下，新人来袭请多多指教，大家共同成长，奥利给^_^
 <!-- more -->
 
+
+## 插入表情
+
+```typescript
+insertEmoj (emoji: string) {
+   const fieldRef = (this.$refs.replyField as any);
+   const fieldDom = fieldRef.$el.getElementsByTagName('textarea')[0];
+   const start = fieldDom.selectionStart;
+   const end = fieldDom.selectionEnd;
+   const text = fieldDom.value;
+   if (start === undefined || end === undefined) return
+   const result = text.substring(0, start) + emoji + text.substring(end);
+   fieldDom.value = result;
+   fieldRef.focus();
+   fieldDom.selectionStart = start + emoji.length;
+   fieldDom.selectionEnd = start + emoji.length;
+   this.inputComments = result;
+}
+```
+
 ## 获取近一周的时间
 ```typescript
 [...Array(7).keys()].map(days => new Date(Date.now() -( 24 * 60 * 60 * 1000) * days))
