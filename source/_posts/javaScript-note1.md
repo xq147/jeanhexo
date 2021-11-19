@@ -1,12 +1,25 @@
 ---
-title: 奇奇怪怪的用法
+title: JS相关笔记
 date: 2021-11-09 12:00:08
 tags: [JavaScript]
 ---
 
-平时在学习过程中以及工作中积累的一些知识小点，俗话说好记不如烂笔头，东放西藏也不是道理，特在此集中记下，新人来袭请多多指教，大家共同成长，奥利给^_^
+平时在学习过程中以及工作中积累的一些知识小点，俗话说好记不如烂笔头，东放西藏也不是道理，特在此集中记下，奥利给^_^
 <!-- more -->
 
+## Reflect.has
+- Reflect.has 用于检查一个对象是否拥有某个属性， 相当于in 操作符 。
+- Reflect.has(target, propertyKey)
+- 参数：
+  - 目标对象: target
+  - 属性名: propertyKey (需要检查目标对象是否存在此属性)
+- 返回值：
+  - 返回一个布尔值判断是否存在该属性
+  - 如果属性存在于原型链中返回值为true
+  
+```typescript
+Reflect.has(target, propertyKey)
+```
 
 ## 插入表情
 
@@ -279,15 +292,20 @@ const lastMonthEnd = moment(lastMonthStart).subtract('month', -1).add('days', -1
 // 预设时间选项
 const today = [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')]; // 当天
 const currentWeek = [start, moment('23:59:59', 'HH:mm:ss').endOf('week')]; // 本周
-const currentMonth = [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss').endOf('month')]; // 本月
+export const currentMonth = [moment().startOf('month'), moment('23:59:59', 'HH:mm:ss').endOf('month')]; // 本月
+export const lastMonth = [
+  moment('00:00:00', 'HH:mm:ss').subtract('month', 1).date(1), // 获取上月第一天
+  moment('23:59:59', 'HH:mm:ss').subtract('month', 1).endOf('month'), // 获取上月最后一天；第一种写法
+  // moment('23:59:59', 'HH:mm:ss').subtract('month').date(0), // 获取上月最后一天；第二种写法
+]; // 上月
 
 // 范围快捷设置
 const setRanges = {
   今天: today,
   本周: currentWeek,
-  本月: currentMonth,
   上周: [lastWeekStart, lastWeekEnd],
-  // 上月: [lastMonthStart, moment('00:00:00', 'HH:mm:ss')],
+  本月: currentMonth,
+  上月: lastMonth,
 };
 
 /**
