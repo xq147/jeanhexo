@@ -41,3 +41,43 @@ head中的标签： base、link、meta、script、style以及title。
 ```
 
 <p contenteditable="true" style="border: 1px solid #00c851;border-radius: 10px; padding: 10px">这是一个可编辑的段落。</p>
+
+
+# 上下三栏布局, 上下固定,中间可滚动
+
+```scss
+.wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .wrap__drawer__header {
+    flex: 0 0 20px;
+    text-align: center;
+  }
+  .wrap__drawer__content {
+    display: flex;
+    flex-direction: column;
+    max-height: 800px;
+    overflow-y: auto;
+    .item__style {
+      display: flex;
+      align-items: center;
+      height: 30px;
+      margin: 10px;
+      padding: 10px;
+      background: #f6f6f6;
+
+      &:hover {
+        height: 40px;
+        cursor: move;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+    }
+  }
+  .wrap__drawer__footer {
+    flex: 0 0 60px;
+    text-align: center;
+  }
+
+}
+```

@@ -7,6 +7,47 @@ tags: [JavaScript]
 平时在学习过程中以及工作中积累的一些知识小点，俗话说好记不如烂笔头，东放西藏也不是道理，特在此集中记下，奥利给^_^
 <!-- more -->
 
+## dom节点移动
+```javascript
+  dragsData: {
+    start: {}, // 移动的节点
+    move: {}, // 移动后的位置所在
+  }, // 移动的数据
+
+    // 开始移动
+    dragstart(value) {
+      Object.assign(this.dragsData, {
+        start: value,
+      });
+    },
+    // 记录移动过程中信息
+    dragenter(value, e) {
+      Object.assign(this.dragsData, {
+        move: value,
+      });
+      e.preventDefault();
+      },
+    // 拖拽最终操作
+    dragend() {
+      const { start, move } = this.dragsData;
+      if (start.id !== move.id) {
+        let oldIndex = this.newGroupArr.findIndex((f) => f.id === start.id);
+        let newIndex = this.newGroupArr.findIndex((f) => f.id === move.id)
+        let newItems = this.newGroupArr;
+        // 删除开始移动的节点的的节点
+        newItems.splice(oldIndex, 1);
+        // 在列表中目标位置增加新的节点; // 即把开始选中移动的节点插入
+        newItems.splice(newIndex, 0, start);
+        this.newGroupArr = [...newItems]
+      }
+    },
+    // 拖动事件（主要是为了拖动时鼠标光标不变为禁止）
+    dragover(e) {
+      e.preventDefault();
+    },
+```
+
+
 ## Reflect.has
 - Reflect.has 用于检查一个对象是否拥有某个属性， 相当于in 操作符 。
 - Reflect.has(target, propertyKey)
