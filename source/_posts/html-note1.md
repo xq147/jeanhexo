@@ -9,6 +9,24 @@ html、css相关积累
 
 ![原文来源](https://mp.weixin.qq.com/s/iL_asPp-R0QGgwZ0av4PvQ) 该文仅供作者本人学习记录所用。
 
+# vue项目中获取微信公众号图片失效问题
+app.vue中添加以下代码
+<meta name="referrer" content="no-referrer" />
+示例:
+
+```vue
+
+<template>
+  <ConfigProvider :locale="getAntdLocale">
+    <meta name="referrer" content="no-referrer" />
+    <AppProvider>
+      <RouterView />
+    </AppProvider>
+  </ConfigProvider>
+</template>
+
+```
+
 # head
 head标签用于文档头部信息，是所有头部元素的容器，head中的元素可以引用脚本、指示浏览器在哪里找到样式表、提供元信息等等。
 head中的标签： base、link、meta、script、style以及title。

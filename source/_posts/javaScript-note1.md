@@ -7,7 +7,229 @@ tags: [JavaScript]
 平时在学习过程中以及工作中积累的一些知识小点，俗话说好记不如烂笔头，东放西藏也不是道理，特在此集中记下，奥利给^_^
 <!-- more -->
 
+##  Math.sqrt
+返回一个数的平方根
+
+## 高内聚低耦合
+- 耦合： 软件模块之间相互依赖的程度。 侧重外交
+  - 每次调用方法 A 之后都需要同步调用方法 B，那么此时方法 A 和 B 间的耦合度是高的。
+- 内聚： 模块内的元素具有的共同点的相似程度。 侧重内功
+  - 一个类中的多个方法有很多的共同之处，都是做支付相关的处理，那么这个类的内聚度是高的。
+- 单一职责原则： 一个类 一个function只做一件事情
+软件中每个元素都只完成自己职责的事情，将其他的事情交给别人
+
+## 实现JS异步编程的4种方法
+- 下面几种解决方式从根本上来说都是利用了浏览器定时器的工作原理
+
+一、 回调函数
+- 异步编程中最基本的方式；采用这种方式，把同步操作变成了异步操作，f1不会堵塞程序运行，相当于先执行程序的主要逻辑，将耗时的操作推迟执行。
+- 利用定时器的工作原理将f1放入事件队列中去执行，哪怕延时是0，也是如此，因此不堵塞程序运行。此处掌握定时器的工作原理。
+- 回调函数的优点是简单、容易理解和部署，缺点是不利于代码的阅读和维护，各个部分之间高度耦合，流程会很混乱，而且每个任务只能指定一个回调函数。
+
+```typescript
+
+fn1(fn2());
+const fn1 = (callback: any) => {
+  console.log('这是方法fn1的内部')
+  setTimeout(() => {
+        callback()
+    }, 300);
+};
+const fn2 = () => {
+    console.log('这是方法fn2的内部')
+}
+
+```
+
+二、 事件监听
+- 不取决于代码的顺序，在于这个事件是否被触发执行；
+
+三、 发布/订阅
+- "发布/订阅模式"（publish-subscribe pattern），又称"观察者模式"（observer pattern）
+- 假定，存在一个"信号中心"，某个任务执行完成，就向信号中心"发布"（publish）一个信号，
+其他任务可以向信号中心"订阅"（subscribe）这个信号，从而知道什么时候自己可以开始执行。
+
+四、 Promises对象
+![工业聚：100 行代码实现 Promises/A+ 规范](https://mp.weixin.qq.com/s/qdJ0Xd8zTgtetFdlJL3P1g)
+- 每一个异步任务返回一个Promise对象，该对象有一个then方法，允许指定回调函数
+- f1().then(f2).then(f3);
+
+五、 async/await
+async/await，async 是 Generator 函数的语法糖，async返回的是promise对象，await控制执行顺序。
+async/await 的优点是代码清晰（不像使用 Promise 的时候需要写很多 then 的方法链），可以处理回调地狱的问题。
+async/await 写起来使得 JS 的异步代码看起来像同步代码，其实异步编程发展的目标就是让异步逻辑的代码看起来像同步一样容易理解。
+
+六、 Generator 生成器
+Generator 也是一种异步编程解决方案，它最大的特点就是可以交出函数的执行权，
+Generator 函数可以看出是异步任务的容器，需要暂停的地方，都用 yield 语法来标注
+Generator 函数一般配合 yield 使用，Generator 函数最后返回的是迭代器
+
+## 回调函数是什么? 如何解决地狱回调?
+- 回调函数: 本质上是一个闭包
+  被作为实参传入另一函数，并在该外部函数内被调用，用以来完成某些任务的函数，称为回调函数
+  一个回调函数，也被称为高阶函数，是一个被作为参数传递给另一个函数（在这里我们把另一个函数叫做“otherFunction”）的函数，
+  回调函数在其他方法函数中被调用。一个回调函数本质上是一种编程模式（为一个常见问题创建的解决方案），因此，使用回调函数也叫做回调模式
+- 回调地狱: 因为回调太多导致代码可读性变差
+解决方案:
+1. 给函数命名传递名字作为回调函数, 不在主函数中的参数中定义匿名函数
+2. 模块化- 将代码相同功能的代码单独放入一个模块中，这样你就可以导出一块代码来完成特定的工作。然后在应用中导入模块
+
+## generator如何控制函数执行?
+yield
+
+## 防抖
+- 一段时间内只执行一次,不断的操作中（输入、点击等）最终只执行一次的一种提高性能的方法;
+- 假定间隔时间设置10秒, 10s内疯狂点击,最终只会执行一次, 执行完之后清零等待下一次的点击操作
+
+```typescript
+/**
+ * 
+ * @param fn 方法
+ * @param delay 时间(毫秒), 假定300毫秒为无意识的触发
+ */
+// 防抖函数（简洁版）
+function debounce(fn,delay){
+  let timer = null //借助闭包
+  return function() {
+    // 每次执行前先清除定时器，以确保在delay时间内fn函数不被执行。
+    timer && clearTimeout(timer)
+    timer = setTimeout(fn, delay)
+  }
+}
+// 原始函数
+const handlerScroll = function() {
+  var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+  console.log('滚动条当前位置：' + scrollTop);
+}
+// 两函数结合，实现滚动防抖
+const scrollHandler = debounce(handlerScroll, 1000)
+window.addEventListener('scroll', scrollHandler)
+
+```
+
+## 节流
+- 一段时间内只会执行一次
+- 假定间隔时间设置10s, 每个10s就会执行一次方法, 即便10s内点击多次也只会执行一次
+```typescript
+/**
+ * 一段时间内不断操作而在设定的规定时间内只执行一次
+ * @param fn 点击的时间
+ * @param delay 间隔时间(毫秒)
+ */
+function throttle(fn, delay) {
+  let timer = null;      //定义一个定时器
+  return function() {
+    let context = this;
+    let args = arguments;
+    if(!timer) {
+      timer = setTimeout(function() {
+        fn.apply(context, args);
+        timer = null;
+      }, delay);
+    }
+  }
+}
+// 原始函数
+const scrollEvent = function() {
+  console.log('当前时间戳：' + new Date().getTime());
+}
+// 两函数结合，实现节流防抖
+const scrollHandler = throttle(scrollEvent, 1000)
+// 滚动事件
+window.addEventListener('scroll', scrollHandler);
+
+```
+
+## Symbol
+ES6中引入的新的原始数据类型，表示独一无二的值，最大的用法是用来定义对象的唯一的属性名。
+- Symbol不能使用new命令，因为symbol是原始数据不是对象，可以接受一个字符串作为参数，提供描述，用来显示在控制台或者作为字符串的时候使用，便于区分
+
+```javascript
+const domSymbol = Symbol('watermark-dom');
+```
+
+## 水印
+watermark-dom
+![简单水印与算法水印](https://segmentfault.com/a/1190000019285422)
+
+```typescript
+import { getCurrentInstance, onBeforeUnmount, ref, Ref, unref } from 'vue';
+
+const domSymbol = Symbol('watermark-dom');
+
+export function useWatermark(appendEl: Ref<HTMLElement | null> = ref(document.body)) {
+  let func: Fn = () => {};
+  const id = domSymbol.toString();
+  const clear = () => {
+    const domId = document.getElementById(id);
+    if (domId) {
+      const el = unref(appendEl);
+      el && el.removeChild(domId);
+    }
+    window.removeEventListener('resize', func);
+  };
+  const createWatermark = (str: string) => {
+    clear();
+
+    // 创建画布
+    const can = document.createElement('canvas');
+    // 这是画布宽高
+    can.width = 300;
+    can.height = 240;
+
+    const cans = can.getContext('2d');
+    if (cans) {
+      // 设置倾斜角度
+      cans.rotate((-15 * Math.PI) / 120);
+      // 设置字体
+      cans.font = '15px 微软雅黑';
+      // 设置填充颜色
+      cans.fillStyle = 'rgba(0, 0, 0, 0.15)';
+      // 设置文本内容的对齐方式
+      cans.textAlign = 'left';
+      // 设置在绘制文本是使用的当前文本基线
+      cans.textBaseline = 'middle';
+      // 在画布上绘制填色的文本 （开始X坐标，Y坐标）
+      cans.fillText(str, can.width / 20, can.height);
+    }
+
+    const div = document.createElement('div');
+    div.id = id;
+    div.style.pointerEvents = 'none';
+    div.style.top = '0px';
+    div.style.left = '0px';
+    div.style.position = 'absolute';
+    div.style.opacity = '0.2';
+    div.style.zIndex = '100000';
+    div.style.width = document.documentElement.clientWidth + 'px';
+    div.style.height = document.documentElement.clientHeight + 'px';
+    div.style.background = 'url(' + can.toDataURL('image/png') + ') left top repeat';
+    const el = unref(appendEl);
+    el && el.appendChild(div);
+    return id;
+  };
+
+  function setWatermark(str: string) {
+    createWatermark(str);
+    func = () => {
+      createWatermark(str);
+    };
+    window.addEventListener('resize', func);
+    const instance = getCurrentInstance();
+    if (instance) {
+      onBeforeUnmount(() => {
+        clear();
+      });
+    }
+  }
+
+  return { setWatermark, clear };
+}
+
+```
+
 ## dom节点移动
+sortablejs 插件
 ```javascript
   dragsData: {
     start: {}, // 移动的节点
@@ -157,14 +379,48 @@ let person = {name:"老王",age:25,address:"重庆",getName:function(){}};
 console.log(Object.keys(person)); // ["name","age", "address", "getName"]
 ```
 
-### 空值合并运算符 ??
+### 空值(null)判断运算符 ??（es11）
 - 空值合并运算符（??）
   是一个逻辑操作符，当左侧的操作数为 null 或者 undefined 时，返回其右侧操作数，否则返回左侧操作数
 
-### 可选链运算符 ?.
+### 可选链运算符 ?.（es11）
 - 可选链运算符( ?. )
   允许读取位于连接对象链深处的属性的值，不必明确验证链中的每个引用是否有效
   
+## 复合赋值运算符（es12）
+op: 表达式
+- 基本运算符
+  - a op= b 等同于是 a = a op b
+  
+```typescript
+// 例子
+a += b // 等同于 a = a + b;
+```
+
+- 逻辑运算符和其他的复合赋值运算符工作方式不同
+  - a op= b 等同于 a = a op (a = b)
+ 
+ ```typescript
+// 例子
+a ||= b //等价于 a = a || (a = b)
+a &&= b //等价于 a = a && (a = b)
+a ??= b //等价于 a = a ?? (a = b)
+```
+
+- 复合赋值运算符的应用
+  ??=可用来补充/初始化缺失的属性
+
+ ```typescript
+const pages = [
+  { name: '1', age: 18, desc: '很开心第一次见面！' },
+  { name: '2', age: 18 },
+];
+
+for (const page of pages){
+    page.desc ??= '自我介绍';
+}
+```
+
 ### 变换变量的值
 ```typescript
 let a=1;let b=2;
@@ -262,6 +518,13 @@ console.log(Math.trunc(10.99)) // 10
 ```
 
 ## 数组
+
+### some()
+数组中只要有一个满足就返回true,
+
+### every()
+必须所有都返回true才会返回true，哪怕有一个false，就会返回false
+
 ### 对象数组去重
 
 ```typescript

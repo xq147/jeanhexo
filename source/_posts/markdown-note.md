@@ -85,7 +85,7 @@ More info: [高级技巧](https://www.runoob.com/markdown/md-advance.html)
 |&|	和号 |&amp|
 |￥|人民币|&yen|
 |©|	版权|&copy|
-|®|	注册商标|&reg|
+****|®|	注册商标|&reg|
 |°C|摄氏度|&deg|
 |±|	正负号|&plusmn|
 |×|	乘号|&times|
