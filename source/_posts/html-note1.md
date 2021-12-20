@@ -9,13 +9,31 @@ html、css相关积累
 
 ![原文来源](https://mp.weixin.qq.com/s/iL_asPp-R0QGgwZ0av4PvQ) 该文仅供作者本人学习记录所用。
 
+# 为一个声明了CSS样式的对象设置一个新的值
+setProperty()
+
+```javascript
+ iframe = document.createElement('iframe'); 
+ iframe.className = "api-interceptor";
+ iframe.style.setProperty('height', '100%', 'important');
+ iframe.style.setProperty('width', '400px', 'important');
+ iframe.style.setProperty('min-width', '1px', 'important');
+ iframe.style.setProperty('position', 'fixed', 'important');
+ iframe.style.setProperty('top', '0', 'important');
+ iframe.style.setProperty('right', '0', 'important');
+ iframe.style.setProperty('left', 'auto', 'important');
+ iframe.style.setProperty('bottom', 'auto', 'important');
+ iframe.style.setProperty('z-index', '9999999999999', 'important');
+ iframe.style.setProperty('transform', 'translateX(420px)', 'important');
+ iframe.style.setProperty('transition', 'all .4s', 'important');
+ iframe.style.setProperty('box-shadow', '0 0 15px 2px rgba(0,0,0,0.12)', 'important');
+```
+
 # vue项目中获取微信公众号图片失效问题
 app.vue中添加以下代码
 <meta name="referrer" content="no-referrer" />
-示例:
 
 ```vue
-
 <template>
   <ConfigProvider :locale="getAntdLocale">
     <meta name="referrer" content="no-referrer" />

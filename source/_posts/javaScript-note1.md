@@ -7,6 +7,52 @@ tags: [JavaScript]
 平时在学习过程中以及工作中积累的一些知识小点，俗话说好记不如烂笔头，东放西藏也不是道理，特在此集中记下，奥利给^_^
 <!-- more -->
 
+### 自定义触发事件 dispatchEvent()
+- document.createEvent() 创建新的Event对象
+- event.initEvent() 初始化
+- element.dispatchEvent()
+
+```javascript
+var dom = document.querySelector('#id')
+dom.addEventListener('alert', function (event) {
+  console.log(event)
+}, false);
+ 
+// 创建
+var evt = document.createEvent("HTMLEvents");
+// 初始化
+evt.initEvent("alert", false, false);
+ 
+// 触发, 即弹出文字
+dom.dispatchEvent(evt);
+```
+
+### js发起自定义事件 CustomEvent()
+```javascript
+new CustomEvent(eventName, params);
+```
+
+### JS获取背景图片
+
+````javascript
+    // 根据dom获取背景图片
+      getBgImgs (dom) {
+        const srcChecker = /url\(\s*?['"]?\s*?(\S+?)\s*?["']?\s*?\)/i
+        return Array.from(
+          Array.from(dom.querySelectorAll('*'))
+            .reduce((collection, node) => {
+              let prop = window.getComputedStyle(node, null)
+                .getPropertyValue('background-image')
+              let match = srcChecker.exec(prop)
+              if (match) {
+                collection.add(match[1])
+              }
+              return collection
+            }, new Set())
+        )
+      }
+````
+
 ##  Math.sqrt
 返回一个数的平方根
 
@@ -27,7 +73,6 @@ tags: [JavaScript]
 - 回调函数的优点是简单、容易理解和部署，缺点是不利于代码的阅读和维护，各个部分之间高度耦合，流程会很混乱，而且每个任务只能指定一个回调函数。
 
 ```typescript
-
 fn1(fn2());
 const fn1 = (callback: any) => {
   console.log('这是方法fn1的内部')

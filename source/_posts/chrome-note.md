@@ -87,6 +87,10 @@ chrome.webRequest.onHeadersReceived.addListener(
 
 ```
 
+## chrome.extension.getURL
+
+## chrome.storage.local.get
+
 ##  chrome.tabs.executeScript
 
 ##  chrome.tabs.insertCSS
