@@ -605,7 +605,7 @@ console.log('第一种 maxNUm', Math.max(...arr ));
 const maxNUm = Math.max.apply(this,arr );
 console.log('第二种 maxNUm', maxNUm);
 // 第三种
-const maxNUm1 = arr .reduce((prev, cur) => {
+const maxNUm1 = arr.reduce((prev, cur) => {
     return Math.max(prev, cur);
     }, 0);
 console.log('第三种 maxNUm', maxNUm1);
