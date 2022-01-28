@@ -6,6 +6,102 @@ tags: [JavaScript]
 
 平时在学习过程中以及工作中积累的一些知识小点，俗话说好记不如烂笔头，东放西藏也不是道理，特在此集中记下，奥利给^_^
 <!-- more -->
+### 数组转树型数据
+思路: 先把数据转成Map去存储, 遍历的同时借助对象的引用，直接从Map找对应的数据做存储.
+```typescript
+// 方法一
+function arrayToTree(items) {
+  const result = [];   // 存放结果集
+  const itemMap = {};  // 
+  for (const item of items) {
+    const id = item.id;
+    const pid = item.pid;
+
+    if (!itemMap[id]) {
+      itemMap[id] = {
+        children: [],
+      }
+    }
+
+    itemMap[id] = {
+      ...item,
+      children: itemMap[id]['children']
+    }
+
+    const treeItem =  itemMap[id];
+
+    if (pid === 0) {
+      result.push(treeItem);
+    } else {
+      if (!itemMap[pid]) {
+        itemMap[pid] = {
+          children: [],
+        }
+      }
+      itemMap[pid].children.push(treeItem)
+    }
+
+  }
+  return result;
+}
+
+
+// 方法二
+function arrayToTree(items) {
+  const result = [];   // 存放结果集
+  const itemMap = {};  // 
+
+  // 先转成map存储
+  for (const item of items) {
+    itemMap[item.id] = {...item, children: []}
+  }
+
+  for (const item of items) {
+    const id = item.id;
+    const pid = item.pid;
+    const treeItem =  itemMap[id];
+    if (pid === 0) {
+      result.push(treeItem);
+    } else {
+      if (!itemMap[pid]) {
+        itemMap[pid] = {
+          children: [],
+        }
+      }
+      itemMap[pid].children.push(treeItem)
+    }
+
+  }
+  return result;
+}
+
+// 方法三
+/**
+ * 递归查找，获取children
+ */
+const getChildren = (data, result, pid) => {
+  for (const item of data) {
+    if (item.pid === pid) {
+      const newItem = {...item, children: []};
+      result.push(newItem);
+      getChildren(data, newItem.children, item.id);
+    }
+  }
+}
+
+/**
+ * 转换方法
+ */
+const arrayToTree = (data, pid) => {
+  const result = [];
+  getChildren(data, result, pid)
+  return result;
+}
+
+
+```
+
+
 
 ### 自定义触发事件 dispatchEvent()
 - document.createEvent() 创建新的Event对象
