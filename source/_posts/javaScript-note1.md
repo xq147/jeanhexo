@@ -6,6 +6,27 @@ tags: [JavaScript]
 
 平时在学习过程中以及工作中积累的一些知识小点，俗话说好记不如烂笔头，东放西藏也不是道理，特在此集中记下，奥利给^_^
 <!-- more -->
+### js onclick参数传递
+``
+1.传json对象
+
+var object= {id: 123, name: 'name1', age: 10};
+var jsonObj = '<a οnclick="dotest(' + JSON.stringify(object).replace(/"/g, '&quot;') + ');">json对象传递</a>';
+
+
+2.传json字符串
+
+var object= {id: 123, name: 'name1', age: 10};
+var jsonStr = '<a οnclick="dotest(\'' + JSON.stringify(object).replace(/"/g, '&quot;') + '\');">json字符串传递</a>';
+
+
+3.传object对象
+
+var objectstr =JSON.stringify(object);
+这里要特别注意：方法格式必须为 οnclick='dotest2("+objectstr+")（单双引号保持一致）
+var html=  "<button οnclick='dotest2("+zxdxx+")'>测试</button>"  
+
+``
 ### 数组转树型数据
 思路: 先把数据转成Map去存储, 遍历的同时借助对象的引用，直接从Map找对应的数据做存储.
 ```typescript
